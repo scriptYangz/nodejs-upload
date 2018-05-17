@@ -30,14 +30,27 @@ let server = http.createServer(function(request, response) {
 			
 			
 			
+			
+			console.log()
+		if(files.file.length==undefined){
+			
+			//这里可以使用两种方法来获取文件，1、nodejs是事件驱动机制，可以使用form.on("file",function(){})来处理。文件接收到触发事件  2、对接收文件进行遍历（本文使用）  
+			for(var k in files) { //文件的重定向 存到服务器上  
+				fs.rename(files[k].path, "./files/" + files[k].name); //很多文件的时候使用for in循环来进行遍历 此时 k是files对象的某个索引 或者是后面提到的FormData.append的名字  
+			}
+			
+			
+			
+		}else{
+			
 			//这里可以使用两种方法来获取文件，1、nodejs是事件驱动机制，可以使用form.on("file",function(){})来处理。文件接收到触发事件  2、对接收文件进行遍历（本文使用）  
 			for(var k in files.file) { //文件的重定向 存到服务器上  
-				
-				
-				
-			
 				fs.rename(files.file[k].path, "./files/" + files.file[k].name); //很多文件的时候使用for in循环来进行遍历 此时 k是files对象的某个索引 或者是后面提到的FormData.append的名字  
 			}
+			
+		}
+			
+			
 
 			response.end(JSON.stringify({
 				code: 1000,
@@ -48,7 +61,7 @@ let server = http.createServer(function(request, response) {
 		} else {
 			
 			
-			user.init(request,response)
+			user.init(request, response)
             return false;
 
 		}
